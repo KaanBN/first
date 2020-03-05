@@ -3,21 +3,30 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <Windows.h>
+#include <time.h>
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
 
+void lejant() {
+	printf("Lejant:\n");
+	printf(ANSI_COLOR_GREEN"S = Başlangıç \t"ANSI_COLOR_RESET);
+	printf(ANSI_COLOR_GREEN"G = Son \t"ANSI_COLOR_RESET);
+	printf(ANSI_COLOR_BLUE "# = Duvar \t" ANSI_COLOR_RESET);
+	printf(ANSI_COLOR_YELLOW". = Yol \t"ANSI_COLOR_RESET);
+	printf(ANSI_COLOR_RED"O = Gerçek Yol \n"ANSI_COLOR_RESET);
+	printf("Devam etmek için bir tuşa basın");
+}
+void orj_yap(int* dizi, int x, int y, int orj) {
+	*((dizi + x * 31) + y) = orj;
+}
 void giris_cıkıs(int* dizi, int x, int y) {
-	for (int i = 0; i < x; i++)
-	{
-		for (int j = 0; j < y; j++) {
-			if (i == 0 && j == 0)
-			{
-				*((dizi + i * y) + j) = 1;
-			}
-			else if (i == x - 1 && j == y - 1)
-			{
-				*((dizi + i * y) + j) = 2;
-			}
-		}
-	}
+	*((dizi + 31 * 0) + 0) = 1;
+	*((dizi + 31 * (x-1)) + (y-1)) = 2;
 }
 void Matrix_Yap(int* dizi, int x, int y) {		//random matrix generator
 	for (int a = 0; a < x; a++)
@@ -57,6 +66,7 @@ void Geri_cevir(int* dizi, int x, int y) {		//Matrixleri orijinal haline döndü
 					*((dizi + y * a) + b) = 4;
 				}
 			}
+
 		}
 	}
 }
@@ -76,19 +86,19 @@ void Yaz(int* a, int x, int y) {		//matrix Yazdırılıyor
 		for (int j = 0; j < y; j++) {
 			if (*((a + i * y) + j) == 1)
 			{
-				printf("S");
+				printf(ANSI_COLOR_GREEN "S" ANSI_COLOR_RESET);
 			}
 			else if (*((a + i * y) + j) == 2)
 			{
-				printf("G");
+				printf(ANSI_COLOR_GREEN "G" ANSI_COLOR_RESET);
 			}
 			else if (*((a + i * y) + j) == 3)
 			{
-				printf("#");
+				printf(ANSI_COLOR_BLUE "#" ANSI_COLOR_RESET);
 			}
 			else if (*((a + i * y) + j) == 4)
 			{
-				printf(".");
+				printf(ANSI_COLOR_YELLOW"."ANSI_COLOR_RESET);
 			}
 			else if (*((a + i * y) + j) == 5)
 			{
@@ -96,7 +106,7 @@ void Yaz(int* a, int x, int y) {		//matrix Yazdırılıyor
 			}
 			else if (*((a + i * y) + j) == 6)
 			{
-				printf("O");
+				printf(ANSI_COLOR_RED "O" ANSI_COLOR_RESET);
 			}
 		}
 		printf("\n");
@@ -1674,7 +1684,7 @@ int main() {
 	srand(time(NULL));
 	setlocale(LC_ALL, "Turkish");
 	int secim = 0;
-	int sayac = 0;
+	int orj = 0;
 	int maze1[6][6] = {
 		{1,3,3,3,3,3},
 		{4,4,4,4,4,4},
@@ -1701,10 +1711,23 @@ int main() {
 		{3,4,3,4,4,4,3,4,4,4,4},
 		{3,3,3,3,3,3,3,3,3,3,2}
 	};
+	int maze4[11][15] = {
+		{1,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
+		{4,4,3,4,4,4,4,4,4,4,3,4,4,4,3},
+		{3,4,3,4,3,3,3,4,3,4,3,3,3,4,3},
+		{3,4,3,4,3,4,4,4,3,4,4,4,4,4,3},
+		{3,4,3,4,3,4,3,3,3,4,3,3,3,3,3},
+		{3,4,3,4,3,4,4,4,3,4,3,4,4,4,3},
+		{3,4,3,4,3,3,3,4,3,3,3,4,3,4,3},
+		{3,4,3,4,3,4,3,4,4,4,4,4,3,4,3},
+		{3,4,3,4,3,4,3,3,3,3,3,3,3,4,3},
+		{3,4,4,4,4,4,3,4,4,4,4,4,4,4,4},
+		{3,3,3,3,3,3,3,3,3,3,3,3,3,3,2},
+	};
 	while (1)
 	{
 		//ilk seçim ekranı
-		printf("****************** Bulmacalar ***********************\n1)Bulmaca 1\n2)Bulmaca 2\n3)Bulmaca 3\n4)Rastgele\n5)Seçmeli(En Büyük Matrix 31x31)\n6)Çıkış\nSeçim : ");
+		printf("****************** Bulmacalar ***********************\n1)Bulmaca 1(6X6)\n2)Bulmaca 2(9X9)\n3)Bulmaca 3(5X11)\n4)Bulmaca 4(11X15)\n5)Rastgele\n6)Seçmeli(En Büyük Matrix 31x31)\n7)Çıkış\nSeçim : ");
 		scanf_s("%d", &secim);
 		if (secim == 1)
 		{
@@ -1716,13 +1739,12 @@ int main() {
 			en_kısa_yol(maze1, 6, 6);
 			Yaz(maze1, 6, 6);
 			printf("**************************************************************\n");
-			printf("Lejant:\nS = Başlangıç \t G = Son \t # = Duvar \t . = Yol \t O = Gerçek Yol\nDevam etmek için bir tuşa basın\n");
+			lejant();
 			Geri_cevir(maze1, 6, 6);
 			getch();
 			system("cls");
 			continue;
 		}
-
 		else if (secim == 2)
 		{
 			//2.matrix
@@ -1733,7 +1755,7 @@ int main() {
 			en_kısa_yol(maze2, 9, 9);
 			Yaz(maze2, 9, 9);
 			printf("*************************************************************\n");
-			printf("Lejant:\nS = Başlangıç \t G = Son \t # = Duvar \t . = Yol \t O = Gerçek Yol\nDevam etmek için bir tuşa basın\n");
+			lejant();
 			Geri_cevir(maze2, 6, 6);
 			getch();
 			system("cls");
@@ -1741,15 +1763,16 @@ int main() {
 		}
 		else if (secim == 3)
 		{
-			//3.Matrix 
+			//3.Matrix
 			system("cls");
 			printf("************************* 3.Bulmaca ************************\n");
 			Yaz(maze3, 5, 11);
 			printf("************************** Çözüm 3 **************************\n");
-			en_kısa_yol(maze3, 0, 0, 5, 11);
+			en_kısa_yol(maze3, 5, 11);
 			Yaz(maze3, 5, 11);
 			printf("*************************************************************\n");
-			printf("Lejant:\nS = Başlangıç \t G = Son \t # = Duvar \t . = Yol \t O = Gerçek Yol\nDevam etmek için bir tuşa basın\n");
+//			printf("Lejant:\nS = Başlangıç \t G = Son \t # = Duvar \t . = Yol \t O = Gerçek Yol\nDevam etmek için bir tuşa basın\n");
+			lejant();
 			Geri_cevir(maze3, 5, 11);
 			getch();
 			system("cls");
@@ -1757,12 +1780,28 @@ int main() {
 		}
 		else if (secim == 4)
 		{
+			//4.Matrix
+			system("cls");
+			printf("************************* 4.Bulmaca ************************\n");
+			Yaz(maze4, 11, 15);
+			printf("************************** Çözüm 4 **************************\n");
+			en_kısa_yol(maze4, 11, 15);
+			Yaz(maze4, 11, 15);
+			printf("*************************************************************\n");
+			lejant();
+			Geri_cevir(maze4, 11, 15);
+			getch();
+			system("cls");
+			continue;
+		}
+		else if (secim == 5)
+		{
 			int x = 0, y = 0, counter = 0;
 			while (1)
 			{
 				system("cls");
 				printf("****************** Rastgele Bulmaca ***********************\n");
-				printf("Satır ve Sütun değerlerini girin :\n");
+				printf("Satır ve Sütun değerlerini girin (Ne kadar büyük girerseniz bekleme süreniz o kadar uzun olur):\n");
 				printf("Satır = ");
 				scanf_s("%d", &x);
 				printf("Sütun = ");
@@ -1781,9 +1820,16 @@ int main() {
 			int* rastgele = (int*)malloc(x * y * sizeof(int));
 			while (1)
 			{
+				clock_t begin = clock();
 				Matrix_Yap(rastgele, x, y);
 				if (Yol_bul(rastgele, 0, 0, x, y))
 				{
+					printf("İsteklerinize uygun bir Bulmaca oluşturuldu !\n");
+					system("cls");
+					clock_t end = clock();
+					double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+					printf("istatistikler :\n");
+					printf("Deneme Sayısı = %d\t Geçen Süre = %fl\n", counter, time_spent);
 					printf("*********************** Oluşan Matrix ***********************\n");
 					Geri_cevir(rastgele, x, y);
 					Yaz(rastgele, x, y);
@@ -1791,19 +1837,22 @@ int main() {
 					printf("*********************** Çözüm Matrixi ************************\n");
 					Yaz(rastgele, x, y);
 					printf("**************************************************************\n");
+					lejant();
 					break;
 				}
 				++counter;
 				continue;
 			}
-			printf("Devam etmek için bir tuşa basın");
+			//printf("Devam etmek için bir tuşa basın");
 			getch();
 			system("cls");
 			continue;
 		}
-		else if (secim == 5)
+		else if (secim == 6)
 		{
-			printf("*********************** Seçmeli Bulmaca ***********************");
+			int satir = 0;
+			int sutun = 0;
+			printf("*********************** Seçmeli Bulmaca ***********************\n");
 			printf("Orijinal Bulmaca :\n");
 			int secmeli[31][31] = {
 				{1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
@@ -1839,19 +1888,109 @@ int main() {
 				{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2}
 			};
 			Yaz(secmeli, 31, 31);
-			printf("************************** Çözüm **************************\n");
-			if (Yol_bul(secmeli,0,0,31,31))
+			while (1)
 			{
-				Geri_cevir(secmeli, 31, 31);
-				en_kısa_yol(secmeli, 31, 31);
-				Yaz(secmeli, 31, 31);
+				printf("Ne kadarını kullanmak istiyorsunuz ? (her zaman bir sonuç çıkamayabilir)\n");
+				printf("satir = ");
+				scanf_s("%d", &satir);
+				printf("sutun = ");
+				scanf_s("%d", &sutun);
+
+				if ((satir > 31 || sutun > 31 || satir <= 0 || sutun <= 0))
+				{
+					printf("girilen sayı 31 ile 0 arasında olmak zorundadır (tavsiye : en az 3x3 yaparsanız daha güzel bir sonuç çıkar)\n");
+					printf("Devam etmek için bir tuşa basın\n");
+					getch();
+					system("cls");
+					continue;
+				}
+				else
+				{
+					orj = secmeli[satir][sutun];
+					break;
+				}
+
 			}
-			printf("Devam etmek için bir tuşa basın");
+			system("cls");
+			giris_cıkıs(secmeli, satir, sutun);
+			if (Yol_bul(secmeli,0, 0,31, 31))
+			{
+				en_kısa_yol(secmeli, satir, sutun);
+				printf("************************** Çözüm **************************\n");
+				
+				for (int a = 0; a < satir; a++)
+				{
+					for (int b = 0; b < sutun; b++) {
+						if (secmeli[a][b] == 1)
+						{
+							printf(ANSI_COLOR_GREEN"S"ANSI_COLOR_RESET);
+						}
+						else if (secmeli[a][b] == 2)
+						{
+							printf(ANSI_COLOR_GREEN"G"ANSI_COLOR_RESET);
+						}
+						else if (secmeli[a][b] == 3)
+						{
+							printf(ANSI_COLOR_BLUE"#"ANSI_COLOR_RESET);
+						}
+						else if (secmeli[a][b] == 4)
+						{
+							printf(ANSI_COLOR_YELLOW"."ANSI_COLOR_RESET);
+						}
+						else if (secmeli[a][b] == 6)
+						{
+							printf(ANSI_COLOR_RED"O"ANSI_COLOR_RESET);
+						}
+					}
+					printf("\n");
+				}
+				
+				printf("************************************************************\n");
+				lejant();
+				orj_yap(secmeli, satir, sutun, orj);
+				Geri_cevir(secmeli, 31, 31);
+
+			}
+			else
+			{
+				printf("Malesef Çıkış yok :(\n");
+				giris_cıkıs(secmeli, satir, sutun);
+				printf("*********************** Oluşan Matrix ***********************\n");
+				for (int a = 0; a < satir; a++)
+				{
+					for (int b = 0; b < sutun; b++) {
+						if (secmeli[a][b] == 1)
+						{
+							printf(ANSI_COLOR_GREEN"S"ANSI_COLOR_RESET);
+						}
+						else if (secmeli[a][b] == 2)
+						{
+							printf(ANSI_COLOR_GREEN"G"ANSI_COLOR_RESET);
+						}
+						else if (secmeli[a][b] == 3)
+						{
+							printf(ANSI_COLOR_BLUE"#"ANSI_COLOR_RESET);
+						}
+						else if (secmeli[a][b] == 4)
+						{
+							printf(ANSI_COLOR_YELLOW"."ANSI_COLOR_RESET);
+						}
+						else if (secmeli[a][b] == 6)
+						{
+							printf(ANSI_COLOR_RED"O"ANSI_COLOR_RESET);
+						}
+					}
+					printf("\n");
+				}
+				printf("*************************************************************\n");
+				printf("Devam etmek için bir tuşa basın");
+				orj_yap(secmeli, satir, sutun, orj);
+			}
 			getch();
 			system("cls");
 			continue;
 		}
-		else if (secim == 6)
+		else if (secim == 7)
 		{
 			printf("Çıkış yapılıyor...");
 			exit("0");
