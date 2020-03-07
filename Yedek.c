@@ -45,8 +45,8 @@ void Matrix_Yap(int* dizi, int x, int y) {		//random matrix generator
 	}
 }
 void Geri_cevir(int* dizi, int x, int y) {		//Matrixleri orijinal haline döndürür
-	*((dizi + y * 0) + 0) = 1;
-	*((dizi + y * (x - 1)) + (y * 1)) = 2;
+//	*((dizi + y * 0) + 0) = 1;
+//	*((dizi + y * (x-1)) + (y*1)) = 2;
 	for (int a = 0; a < x; a++)
 	{
 		for (int b = 0; b < y; b++) {
@@ -1684,8 +1684,8 @@ int main() {
 	srand(time(NULL));
 	setlocale(LC_ALL, "Turkish");
 	int secim = 0;
-	int orj = 0;
 	int counter = 0;
+	int sayac = 0;
 	int maze1[6][6] = {
 		{1,3,3,3,3,3},
 		{4,4,4,4,4,4},
@@ -1747,7 +1747,7 @@ int main() {
 	while (1)
 	{
 		//ilk seçim ekranı
-		printf("****************** Labirentler ***********************\n1)Labirent 1(6X6)\n2)Labirent 2(9X9)\n3)Labirent 3(5X11)\n4)Labirent 4(11X15)\n5)Labirent 5(6X12)\n6)Labirent 6\n7)Rastgele\n8)Seçmeli(En Büyük Matrix 31x31)\n9)Çıkış\nSeçim : ");
+		printf("****************** Labirentler ***********************\n1)Labirent 1(6X6)\n2)Labirent 2(9X9)\n3)Labirent 3(5X11)\n4)Labirent 4(11X15)\n5)Labirent 5(6X12)\n6)Labirent 6\n7)Rastgele\n8)Seçmeli(En Büyük Matrix 31x31)\n9)Kendiniz Yaratın(Sandbox)\n10)Çıkış\nSeçim : ");
 		scanf_s("%d", &secim);
 		if (secim == 1)
 		{
@@ -1776,7 +1776,7 @@ int main() {
 			Yaz(maze2, 9, 9);
 			printf("*************************************************************\n");
 			lejant();
-			Geri_cevir(maze2, 6, 6);
+			Geri_cevir(maze2, 9, 9);
 			getch();
 			system("cls");
 			continue;
@@ -1791,7 +1791,7 @@ int main() {
 			en_kısa_yol(maze3, 5, 11);
 			Yaz(maze3, 5, 11);
 			printf("*************************************************************\n");
-			//			printf("Lejant:\nS = Başlangıç \t G = Son \t # = Duvar \t . = Yol \t O = Gerçek Yol\nDevam etmek için bir tuşa basın\n");
+//			printf("Lejant:\nS = Başlangıç \t G = Son \t # = Duvar \t . = Yol \t O = Gerçek Yol\nDevam etmek için bir tuşa basın\n");
 			lejant();
 			Geri_cevir(maze3, 5, 11);
 			getch();
@@ -1897,6 +1897,7 @@ int main() {
 			//printf("Devam etmek için bir tuşa basın");
 			getch();
 			system("cls");
+			//break;
 			continue;
 		}
 		else if (secim == 8)
@@ -1906,43 +1907,43 @@ int main() {
 			printf("*********************** Seçmeli Labirent ***********************\n");
 			printf("Orijinal Labirent :\n");
 			int secmeli[31][31] = {
-				/*1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 */
-				/*1*/	{1,3,3,3,3,3,3,3,3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3},
-				/*2*/	{4,4,4,4,4,4,3,4,4, 4, 4, 4, 4, 4, 4, 4, 4 ,4 ,4 ,4 ,4 ,4 ,3, 4, 4 ,4, 3, 4, 4, 4, 3},
-				/*3*/	{3,4,3,3,3,4,3,4,3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4, 3, 3, 3, 4, 3},
-				/*4*/	{3,4,3,4,4,4,3,4,3, 4, 4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 3},
-				/*5*/	{3,4,3,4,3,3,3,4,3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3},
-				/*6*/	{3,4,3,4,3,4,4,4,3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3},
-				/*7*/	{3,4,3,3,3,4,3,3,3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 3, 4, 3},
-				/*8*/	{3,4,4,4,3,4,4,4,3, 4, 4, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3},
-				/*9*/	{3,3,3,4,3,3,3,4,3, 4, 3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3},
-				/*10*/	{3,4,4,4,3,4,4,4,3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3},
-				/*11*/	{3,4,3,4,3,4,3,3,3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 4, 3},
-				/*12*/	{3,4,3,4,3,4,4,4,4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 3},
-				/*13*/	{3,4,3,3,3,3,3,3,3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4, 3, 4, 3},
-				/*14*/	{3,4,3,4,4,4,4,4,4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 3},
-				/*15*/	{3,4,3,4,3,3,3,3,3, 3, 3, 4, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 4, 3},
-				/*16*/	{3,4,4,4,3,4,3,4,4, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3},
-				/*17*/	{3,4,3,3,3,4,3,4,3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3},
-				/*18*/	{3,4,4,4,4,4,3,4,3, 4, 3, 4, 4, 4, 4, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 4, 4, 3},
-				/*19*/	{3,3,3,3,3,4,3,4,3, 4, 3, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3},
-				/*20*/	{3,4,4,4,4,4,3,4,3, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4, 3},
-				/*21*/	{3,4,3,3,3,3,3,4,3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 3, 3},
-				/*22*/	{3,4,3,4,3,4,4,4,3, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 4, 4, 3},
-				/*23*/	{3,4,3,4,3,4,3,3,3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4, 3, 4, 3, 3, 3, 4, 3},
-				/*24*/	{3,4,3,4,3,4,4,4,3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3},
-				/*25*/	{3,4,3,4,3,3,3,4,3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 3, 4, 3, 4, 3, 4, 3},
-				/*26*/	{3,4,3,4,4,4,3,4,4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 3},
-				/*27*/	{3,4,3,3,3,4,3,3,3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3},
-				/*28*/	{3,4,4,4,3,4,4,4,3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 3},
-				/*29*/	{3,3,3,4,3,3,3,4,3, 3, 3, 3, 3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 3},
-				/*30*/	{3,4,4,4,4,4,4,4,4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4},
-				/*31*/	{3,3,3,3,3,3,3,3,3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2}
+			   /*1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 */
+		/*1*/	{1,3,3,3,3,3,3,3,3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3},
+		/*2*/	{4,4,4,4,4,4,3,4,4, 4, 4, 4, 4, 4, 4, 4, 4 ,4 ,4 ,4 ,4 ,4 ,3, 4, 4 ,4, 3, 4, 4, 4, 3},
+		/*3*/	{3,4,3,3,3,4,3,4,3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4, 3, 3, 3, 4, 3},
+		/*4*/	{3,4,3,4,4,4,3,4,3, 4, 4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 3},
+		/*5*/	{3,4,3,4,3,3,3,4,3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3},
+		/*6*/	{3,4,3,4,3,4,4,4,3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3},
+		/*7*/	{3,4,3,3,3,4,3,3,3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 3, 4, 3},
+		/*8*/	{3,4,4,4,3,4,4,4,3, 4, 4, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3},
+		/*9*/	{3,3,3,4,3,3,3,4,3, 4, 3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3},
+		/*10*/	{3,4,4,4,3,4,4,4,3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3},
+		/*11*/	{3,4,3,4,3,4,3,3,3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 4, 3},
+		/*12*/	{3,4,3,4,3,4,4,4,4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 3},
+		/*13*/	{3,4,3,3,3,3,3,3,3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4, 3, 4, 3},
+		/*14*/	{3,4,3,4,4,4,4,4,4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 3},
+		/*15*/	{3,4,3,4,3,3,3,3,3, 3, 3, 4, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 4, 3},
+		/*16*/	{3,4,4,4,3,4,3,4,4, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3},
+		/*17*/	{3,4,3,3,3,4,3,4,3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3},
+		/*18*/	{3,4,4,4,4,4,3,4,3, 4, 3, 4, 4, 4, 4, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 4, 4, 3},
+		/*19*/	{3,3,3,3,3,4,3,4,3, 4, 3, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3},
+		/*20*/	{3,4,4,4,4,4,3,4,3, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4, 3},
+		/*21*/	{3,4,3,3,3,3,3,4,3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 3, 3, 3},
+		/*22*/	{3,4,3,4,3,4,4,4,3, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 4, 4, 3},
+		/*23*/	{3,4,3,4,3,4,3,3,3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4, 3, 4, 3, 3, 3, 4, 3},
+		/*24*/	{3,4,3,4,3,4,4,4,3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3},
+		/*25*/	{3,4,3,4,3,3,3,4,3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 3, 4, 3, 4, 3, 4, 3},
+		/*26*/	{3,4,3,4,4,4,3,4,4, 4, 3, 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 3},
+		/*27*/	{3,4,3,3,3,4,3,3,3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3},
+		/*28*/	{3,4,4,4,3,4,4,4,3, 4, 4, 4, 3, 4, 3, 4, 3, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 3},
+		/*29*/	{3,3,3,4,3,3,3,4,3, 3, 3, 3, 3, 4, 3, 3, 3, 4, 3, 3, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 3},
+		/*30*/	{3,4,4,4,4,4,4,4,4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4},
+		/*31*/	{3,3,3,3,3,3,3,3,3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2}
 			};
 			Yaz(secmeli, 31, 31);
 			while (1)
 			{
-				printf("Ne kadarını kullanmak istiyorsunuz ? (her zaman bir sonuç çıkamayabilir)\n");
+				printf("Ne kadarını kullanmak istiyorsunuz ? (tavsiye : en az 4x4 yaparsanız daha güzel bir sonuç çıkar)\n");
 				printf("satir = ");
 				scanf_s("%d", &satir);
 				printf("sutun = ");
@@ -1950,7 +1951,7 @@ int main() {
 
 				if ((satir > 31 || sutun > 31 || satir <= 0 || sutun <= 0))
 				{
-					printf("girilen sayı 31 ile 0 arasında olmak zorundadır (tavsiye : en az 3x3 yaparsanız daha güzel bir sonuç çıkar)\n");
+					printf("girilen sayı 31 ile 0 arasında olmak zorundadır (tavsiye : en az 4x4 yaparsanız daha güzel bir sonuç çıkar)\n");
 					printf("Devam etmek için bir tuşa basın\n");
 					getch();
 					system("cls");
@@ -1962,9 +1963,9 @@ int main() {
 				}
 
 			}
-
+			
 			system("cls");
-			int* secili = (int*)calloc(satir * sutun, sizeof(int));
+			int* secili = (int*)calloc(satir * sutun , sizeof(int));
 			for (int i = 0; i < satir; i++)
 			{
 				for (int j = 0; j < sutun; j++)
@@ -1973,14 +1974,17 @@ int main() {
 				}
 			}
 			system("cls");
-			giris_cıkıs(secili, satir, sutun);
+			//giris_cıkıs(secili,satir,sutun);
+			*((secili + 0 * sutun) + 0) = 1;
+			*(((secili + sutun * (satir - 1)) + (sutun - 1))) = 2;
 
 			printf("**************** Elde Kalan Labirent ****************\n");
 			Yaz(secili, satir, sutun);
 			printf("*****************************************************\n");
-			if (Yol_bul(secili, 0, 0, satir, sutun))
+			if (Yol_bul(secili,0,0,satir,sutun))
 			{
 				Yaz(secili, satir, sutun);
+				sayac++;
 			}
 			else
 			{
@@ -1988,7 +1992,7 @@ int main() {
 				{
 					//giris_cıkıs(secili, satir, sutun);
 					*((secili + 0 * sutun) + 0) = 1;
-					*((secili + (sutun - 1) * sutun) + (satir - 1)) = 2;
+					*(((secili + sutun * (satir - 1)) + (sutun - 1))) = 2;
 					if (Yol_bul(secili, 0, 0, satir, sutun))
 					{
 						Geri_cevir(secili, satir, sutun);
@@ -1997,15 +2001,24 @@ int main() {
 						printf("**************************************************************\n");
 						en_kısa_yol(secili, satir, sutun);
 						Yaz(secili, satir, sutun);
+						sayac++;
 						break;
 					}
 					else
 					{
-						*((secili + sutun * i) + (satir - 1)) = 4;
+						*((secili + sutun * i) + (sutun - 1)) = 4;
 					}
 				}
 			}
-
+			for (int i = 0; i < satir; i++)
+			{
+				for (int j = 0; j < sutun; j++)
+				{
+					*((secili + sutun * i) + j) = secmeli[i][j];
+				}
+			}
+			*((secili + 0 * sutun) + 0) = 1;
+			*(((secili + sutun * (satir - 1)) + (sutun - 1))) = 2;
 			if (Yol_bul(secili, 0, 0, satir, sutun))
 			{
 				Yaz(secili, satir, sutun);
@@ -2014,9 +2027,9 @@ int main() {
 			{
 				for (int i = sutun - 1; i >= 0; i--)
 				{
-					giris_cıkıs(secili, satir, sutun);
-					//*((secili + 0 * sutun) + 0) = 1;
-					//*((secili + (sutun - 1) * sutun) + (satir - 1)) = 2;
+					//giris_cıkıs(secili, satir, sutun);
+					*((secili + 0 * sutun) + 0) = 1;
+					*(((secili + sutun * (satir - 1)) + (sutun - 1))) = 2;
 
 					if (Yol_bul(secili, 0, 0, satir, sutun))
 					{
@@ -2030,7 +2043,7 @@ int main() {
 					}
 					else
 					{
-						*((secili + sutun * (sutun - 1)) + i) = 4;
+						*((secili + sutun * (satir - 1)) + i) = 4;
 					}
 				}
 			}
@@ -2041,10 +2054,94 @@ int main() {
 		}
 		else if (secim == 9)
 		{
-			printf("Çıkış yapılıyor...");
-			break;
+			while (1)
+			{
+				int satir = 0;
+				int sutun = 0;
+				system("cls");
+				printf("************* Sandbox Moduna Hoş Geldiniz *************\n");
+				printf(ANSI_COLOR_RED"> Burada kendi labirentinizi oluşturabilrisiniz. Ancak belli kurallara uyulmak zorundadır, yoksa labirent düzgün çalışmaz. <\n"ANSI_COLOR_RESET);
+				printf(ANSI_COLOR_GREEN "1)Başlangıç yapacağınız yeri 1 ile işaretlemelisiniz\n" ANSI_COLOR_RESET);
+				printf(ANSI_COLOR_GREEN "2)Labirentin son bulacağı yeri 2 ile işaretlemelisiniz\n" ANSI_COLOR_RESET);
+				printf(ANSI_COLOR_BLUE"3)Duvarlar 3 ile işaret edilmeli\n"ANSI_COLOR_RESET);
+				printf(ANSI_COLOR_YELLOW"4)Yollar 4 ile işaret edilmeli\n"ANSI_COLOR_RESET);
+				printf("Okudum onaylıyorum.");
+				getch();
+				system("cls");
+				printf("Satır ve sütun sayısını girin \n(0 girerek ise bu ekrandan çıkış yapabilirsiniz.)\n(Tavsiye : En az 4X4 girerseniz daha düzgün sonuçlar elde edersiniz.)\n");
+				printf("Satır = ");
+				scanf_s("%d", &satir);
+				printf("Sutun = ");
+				scanf_s("%d", &sutun);
+				if (satir == 0 || sutun == 0)
+				{
+					system("cls");
+					break;
+				}
+				else if (satir < 0 || sutun < 0)
+				{
+					printf("Tabiki 0 dan düşük değer giremezsiniz.");
+					getch();
+					system("cls");
+					continue;
+				}
+				else
+				{
+					int* sandbox = (int*)malloc(satir * sutun * sizeof(int));
+					for (int i = 0; i < satir; i++)
+					{
+						for (int j = 0; j < sutun; j++) {
+							al:
+							Yaz(sandbox, satir, sutun);
+							printf("\n");
+							printf("Çıkmak için istediğiniz an -1 değerini girebilirsiniz\n");
+							printf("1 = Başlangıç \t 2 = Son \t 3 = Duvar \t 4 = Yol\n");
+							printf("dizi[%d][%d] = ", i, j);
+							scanf_s("%d", ((sandbox + sutun * i) + j));
+							system("cls");
+							if (*((sandbox + (_int64)sutun * i) + j) == -1)
+							{
+								goto cıkıs;
+							}
+							else if (*((sandbox + (_int64)sutun * i) + j) > 5 || *((sandbox + (_int64)sutun * i) + j) < -2)
+							{
+								printf("öyle bir değer bulunmamaktadır.\n");
+								goto al;
+							}
+						}
+					}
+					system("cls");
+					printf("****************** Elde Edilen Labirent ******************\n");
+					Yaz(sandbox, satir, sutun);
+					if (Yol_bul(sandbox,0,0,satir,sutun))
+					{
+						printf("************************** Sonuç **************************\n");
+						en_kısa_yol(sandbox, satir, sutun);
+						Yaz(sandbox, satir, sutun);
+						lejant();
+						getch();
+						system("cls");
+						break;
+					}
+					else
+					{
+						printf("Malesef çıkışı olmayan bir labirent girmiş bulunmaktasınız :(\n");
+						getch();
+						system("cls");
+						break;
+					}
+					
+				cıkıs :
+				break;
+				}
+			}
 		}
-
+		else if (secim == 10)
+		{
+			printf("Çıkış yapılıyor...");
+			exit("1");
+		}
+		
 		else
 		{
 			printf("Yanlış seçim yaptınız !\n");
