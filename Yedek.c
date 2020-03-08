@@ -2061,8 +2061,8 @@ int main() {
 				system("cls");
 				printf("************* Sandbox Moduna Hoş Geldiniz *************\n");
 				printf(ANSI_COLOR_RED"> Burada kendi labirentinizi oluşturabilrisiniz. Ancak belli kurallara uyulmak zorundadır, yoksa labirent düzgün çalışmaz. <\n"ANSI_COLOR_RESET);
-				printf(ANSI_COLOR_GREEN "1)Başlangıç yapacağınız yeri 1 ile işaretlemelisiniz\n" ANSI_COLOR_RESET);
-				printf(ANSI_COLOR_GREEN "2)Labirentin son bulacağı yeri 2 ile işaretlemelisiniz\n" ANSI_COLOR_RESET);
+				printf(ANSI_COLOR_GREEN "1)Başlangıç yapacağınız yeri 1 ile işaretlemelisiniz ve 0x0 noktasında olmak zorundadır\n" ANSI_COLOR_RESET);
+				printf(ANSI_COLOR_GREEN "2)Labirentin son bulacağı yeri 2 ile işaretlemelisiniz ve sağ alt köşeye (m*n) Koymak zorundasınız\n" ANSI_COLOR_RESET);
 				printf(ANSI_COLOR_BLUE"3)Duvarlar 3 ile işaret edilmeli\n"ANSI_COLOR_RESET);
 				printf(ANSI_COLOR_YELLOW"4)Yollar 4 ile işaret edilmeli\n"ANSI_COLOR_RESET);
 				printf("Okudum onaylıyorum.");
@@ -2071,6 +2071,11 @@ int main() {
 				printf("Satır ve sütun sayısını girin \n(0 girerek ise bu ekrandan çıkış yapabilirsiniz.)\n(Tavsiye : En az 4X4 girerseniz daha düzgün sonuçlar elde edersiniz.)\n");
 				printf("Satır = ");
 				scanf_s("%d", &satir);
+				if (satir == 0)
+				{
+					system("cls");
+					break;
+				}
 				printf("Sutun = ");
 				scanf_s("%d", &sutun);
 				if (satir == 0 || sutun == 0)
@@ -2091,31 +2096,51 @@ int main() {
 					for (int i = 0; i < satir; i++)
 					{
 						for (int j = 0; j < sutun; j++) {
-							al:
-							Yaz(sandbox, satir, sutun);
-							printf("\n");
-							printf("Çıkmak için istediğiniz an -1 değerini girebilirsiniz\n");
-							printf("1 = Başlangıç \t 2 = Son \t 3 = Duvar \t 4 = Yol\n");
-							printf("dizi[%d][%d] = ", i, j);
-							scanf_s("%d", ((sandbox + sutun * i) + j));
-							system("cls");
-							if (*((sandbox + (_int64)sutun * i) + j) == -1)
+							if (i == 0 && j == 0)
 							{
-								goto cıkıs;
+								*((sandbox + (_int64)sutun * i) + j) = 1;
+								Yaz(sandbox, satir, sutun);
+								system("cls");
 							}
-							else if (*((sandbox + (_int64)sutun * i) + j) > 5 || *((sandbox + (_int64)sutun * i) + j) < -2)
+							else if (i == satir -1 && j == sutun -1)
 							{
-								printf("öyle bir değer bulunmamaktadır.\n");
-								goto al;
+								*((sandbox + (_int64)sutun * i) + j) = 2;
+								Yaz(sandbox, satir, sutun);
+							}
+							else
+							{
+							al:
+								Yaz(sandbox, satir, sutun);
+								printf("\n");
+								printf("Çıkmak için istediğiniz an -1 değerini girebilirsiniz\n");
+								printf("1 = Başlangıç \t 2 = Son \t 3 = Duvar \t 4 = Yol\n");
+								printf("Şu an %d. satırın %d. elemanını yazdırıyorsunuz \n", i +1 , j +1 );
+								scanf_s("%d", ((sandbox + sutun * i) + j));
+								system("cls");
+								if (*((sandbox + (_int64)sutun * i) + j) == -1)
+								{
+									goto cıkıs;
+								}
+								else if (*((sandbox + (_int64)sutun * i) + j) > 4 || *((sandbox + (_int64)sutun * i) + j) < -2 || *((sandbox + (_int64)sutun * i) + j) == 0)
+								{
+									printf("öyle bir değer bulunmamaktadır!\n");
+									goto al;
+								}
+								else if (*((sandbox + (_int64)sutun * i) + j) == 1 || *((sandbox + (_int64)sutun * i) + j) == 2)
+								{
+									printf("Giriş ve çıkış zaten otomatik olarak belirlenmiştir\n");
+									goto al;
+								}
 							}
 						}
+						printf("Yeni Satıra Geçiş Yaptınız!\n");
 					}
 					system("cls");
-					printf("****************** Elde Edilen Labirent ******************\n");
+					printf("****************** Oluşturduğunuz Labirent ******************\n");
 					Yaz(sandbox, satir, sutun);
 					if (Yol_bul(sandbox,0,0,satir,sutun))
 					{
-						printf("************************** Sonuç **************************\n");
+						printf("************************* Sonuç *************************\n");
 						en_kısa_yol(sandbox, satir, sutun);
 						Yaz(sandbox, satir, sutun);
 						lejant();
@@ -2125,7 +2150,7 @@ int main() {
 					}
 					else
 					{
-						printf("Malesef çıkışı olmayan bir labirent girmiş bulunmaktasınız :(\n");
+						printf("Malesef çıkışı olmayan bir labirent girmiş bulunmaktasınız :(\nHernhangi bir tuşa basarak çıkış yapabilrisiniz.\n");
 						getch();
 						system("cls");
 						break;
