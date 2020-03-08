@@ -19,7 +19,7 @@ void lejant() {
 	printf(ANSI_COLOR_BLUE "# = Duvar \t" ANSI_COLOR_RESET);
 	printf(ANSI_COLOR_YELLOW". = Yol \t"ANSI_COLOR_RESET);
 	printf(ANSI_COLOR_RED"O = Gerçek Yol \n"ANSI_COLOR_RESET);
-	printf("Devam etmek için bir tuşa basın");
+	printf("Devam etmek için bir tuşa basın\n");
 }
 void giris_cıkıs(int* dizi, int x, int y) {
 	*((dizi + 0 * y) + 0) = 1;
@@ -1747,7 +1747,7 @@ int main() {
 	while (1)
 	{
 		//ilk seçim ekranı
-		printf("****************** Labirentler ***********************\n1)Labirent 1(6X6)\n2)Labirent 2(9X9)\n3)Labirent 3(5X11)\n4)Labirent 4(11X15)\n5)Labirent 5(6X12)\n6)Labirent 6\n7)Rastgele\n8)Seçmeli(En Büyük Matrix 31x31)\n9)Kendiniz Yaratın(Sandbox)\n10)Çıkış\nSeçim : ");
+		printf("****************** Seçim Ekranı ***********************\n1)Labirent 1(6X6)\n2)Labirent 2(9X9)\n3)Labirent 3(5X11)\n4)Labirent 4(11X15)\n5)Labirent 5(6X12)\n6)Labirent 6(9X9)\n7)Rastgele\n8)Seçmeli(En Büyük Matrix 31x31)\n9)Kendiniz Yaratın(Sandbox)\n10)Çıkış\nSeçim : ");
 		scanf_s("%d", &secim);
 		if (secim == 1)
 		{
@@ -1844,6 +1844,7 @@ int main() {
 			system("cls");
 			continue;
 		}
+		//rastgele
 		else if (secim == 7)
 		{
 			int x = 0, y = 0, counter = 0;
@@ -1851,13 +1852,44 @@ int main() {
 			{
 				system("cls");
 				printf("****************** Rastgele Labirent ***********************\n");
-				printf("Satır ve Sütun değerlerini girin (Ne kadar büyük girerseniz bekleme süreniz o kadar uzun olur):\n");
+				printf("Satır ve Sütun değerlerini girin (Ne kadar büyük girerseniz bekleme süreniz o kadar uzun olur):\n(0 değerini girerek çıkabilirsiiniz)\n");
 				printf("Satır = ");
 				scanf_s("%d", &x);
+				if (x == 0)
+				{
+					system("cls");
+					goto cıkıs;
+				}
+				else if (x < 2)
+				{
+					printf("1 ve 1 den düşük olamaz !\n");
+					Sleep(1000);
+					system("cls");
+					continue;
+				}
+				else if (x > 15)
+				{
+					printf("15 ten büyük olamaz");
+					Sleep(1000);
+					system("cls");
+					continue;
+				}
 				printf("Sütun = ");
 				scanf_s("%d", &y);
-				if (x <= 0 || y <= 0) {
-					printf("0 dan düşük olamaz !\n");
+				if (y == 0) {
+					system("cls");
+					goto cıkıs;
+				}
+				else if (y < 2)
+				{
+					printf("1 ve 1 den düşük olamaz !\n");
+					Sleep(1000);
+					system("cls");
+					continue;
+				}
+				else if (y > 15)
+				{
+					printf("15 ten büyük olamaz");
 					Sleep(1000);
 					system("cls");
 					continue;
@@ -1899,11 +1931,15 @@ int main() {
 			system("cls");
 			//break;
 			continue;
-		}
+		}	//rastgele
+		//seçmeli
 		else if (secim == 8)
 		{
+			system("cls");
+			int duvar_sayac = 0;
 			int satir = 0;
 			int sutun = 0;
+			secmeli_bas:
 			printf("*********************** Seçmeli Labirent ***********************\n");
 			printf("Orijinal Labirent :\n");
 			int secmeli[31][31] = {
@@ -1941,21 +1977,40 @@ int main() {
 		/*31*/	{3,3,3,3,3,3,3,3,3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2}
 			};
 			Yaz(secmeli, 31, 31);
-			while (1)
-			{
-				printf("Ne kadarını kullanmak istiyorsunuz ? (tavsiye : en az 4x4 yaparsanız daha güzel bir sonuç çıkar)\n");
-				printf("satir = ");
-				scanf_s("%d", &satir);
-				printf("sutun = ");
-				scanf_s("%d", &sutun);
 
-				if ((satir > 31 || sutun > 31 || satir <= 0 || sutun <= 0))
+			while (1)		//satır sütun sayısı alınır
+			{
+				printf("Ne kadarını kullanmak istiyorsunuz ? (tavsiye : en az 4x4 yaparsanız daha güzel bir sonuç çıkar)\n0 yazarak çıkış yapabilirsiniz\n");
+				printf("Satır = ");
+				scanf_s("%d", &satir);
+				if (satir == 0)
 				{
-					printf("girilen sayı 31 ile 0 arasında olmak zorundadır (tavsiye : en az 4x4 yaparsanız daha güzel bir sonuç çıkar)\n");
+					system("cls");
+					goto cıkıs;
+				}
+				else if (satir > 31 || satir <= 2)
+				{
+					printf("girilen sayı 31 ile 3 arasında olmak zorundadır (tavsiye : en az 4x4 yaparsanız daha güzel bir sonuç çıkar)\n");
 					printf("Devam etmek için bir tuşa basın\n");
 					getch();
 					system("cls");
-					continue;
+					goto secmeli_bas;
+				}
+				printf("Sütun = ");
+				scanf_s("%d", &sutun);
+
+				if (sutun == 0)
+				{
+					system("cls");
+					goto cıkıs;
+				}
+				else if (sutun > 31 || sutun <= 2)
+				{
+					printf("girilen sayı 31 ile 3 arasında olmak zorundadır (tavsiye : en az 4x4 yaparsanız daha güzel bir sonuç çıkar)\n");
+					printf("Devam etmek için bir tuşa basın\n");
+					getch();
+					system("cls");
+					goto secmeli_bas;
 				}
 				else
 				{
@@ -1981,10 +2036,11 @@ int main() {
 			printf("**************** Elde Kalan Labirent ****************\n");
 			Yaz(secili, satir, sutun);
 			printf("*****************************************************\n");
+			printf("\n\n");
 			if (Yol_bul(secili,0,0,satir,sutun))
 			{
 				Yaz(secili, satir, sutun);
-				sayac++;
+				goto devamke;
 			}
 			else
 			{
@@ -1997,15 +2053,20 @@ int main() {
 					{
 						Geri_cevir(secili, satir, sutun);
 						printf("********** Yolun Çıkması İçin Gerekli Olan Labirent **********\n");
+						printf("Kırılan duvar sayısı: %d\n",duvar_sayac);
 						Yaz(secili, satir, sutun);
 						printf("**************************************************************\n");
 						en_kısa_yol(secili, satir, sutun);
 						Yaz(secili, satir, sutun);
-						sayac++;
+						printf("\n\n");
 						break;
 					}
 					else
 					{
+						if (*((secili + sutun * i) + (sutun - 1)) == 3)
+						{
+							++duvar_sayac;
+						}
 						*((secili + sutun * i) + (sutun - 1)) = 4;
 					}
 				}
@@ -2019,9 +2080,11 @@ int main() {
 			}
 			*((secili + 0 * sutun) + 0) = 1;
 			*(((secili + sutun * (satir - 1)) + (sutun - 1))) = 2;
+			duvar_sayac = 0;
 			if (Yol_bul(secili, 0, 0, satir, sutun))
 			{
 				Yaz(secili, satir, sutun);
+				goto devamke;
 			}
 			else
 			{
@@ -2035,23 +2098,31 @@ int main() {
 					{
 						Geri_cevir(secili, satir, sutun);
 						printf("********** Yolun Çıkması İçin Gerekli Olan Labirent **********\n");
+						printf("Kırılan duvar sayısı: %d\n", duvar_sayac);
 						Yaz(secili, satir, sutun);
 						printf("**************************************************************\n");
 						en_kısa_yol(secili, satir, sutun);
 						Yaz(secili, satir, sutun);
+						printf("\n\n");
 						break;
 					}
 					else
 					{
+						if (*((secili + sutun * i) + (sutun - 1)) == 3)
+						{
+							++duvar_sayac;
+						}
 						*((secili + sutun * (satir - 1)) + i) = 4;
 					}
 				}
 			}
+			devamke:
 			lejant();
 			getch();
 			system("cls");
 			continue;
 		}
+		//sandbox
 		else if (secim == 9)
 		{
 			while (1)
@@ -2062,7 +2133,7 @@ int main() {
 				printf("************* Sandbox Moduna Hoş Geldiniz *************\n");
 				printf(ANSI_COLOR_RED"> Burada kendi labirentinizi oluşturabilrisiniz. Ancak belli kurallara uyulmak zorundadır, yoksa labirent düzgün çalışmaz. <\n"ANSI_COLOR_RESET);
 				printf(ANSI_COLOR_GREEN "1)Başlangıç yapacağınız yeri 1 ile işaretlemelisiniz ve 0x0 noktasında olmak zorundadır\n" ANSI_COLOR_RESET);
-				printf(ANSI_COLOR_GREEN "2)Labirentin son bulacağı yeri 2 ile işaretlemelisiniz ve sağ alt köşeye (m*n) Koymak zorundasınız\n" ANSI_COLOR_RESET);
+				printf(ANSI_COLOR_GREEN "2)Labirentin son bulacağı yeri 2 ile işaretlemelisiniz ve sağ alt köşeye (SatırXSütun) Koymak zorundasınız\n" ANSI_COLOR_RESET);
 				printf(ANSI_COLOR_BLUE"3)Duvarlar 3 ile işaret edilmeli\n"ANSI_COLOR_RESET);
 				printf(ANSI_COLOR_YELLOW"4)Yollar 4 ile işaret edilmeli\n"ANSI_COLOR_RESET);
 				printf("Okudum onaylıyorum.");
@@ -2161,12 +2232,12 @@ int main() {
 				}
 			}
 		}
+		//çıkış
 		else if (secim == 10)
 		{
 			printf("Çıkış yapılıyor...");
 			exit("1");
 		}
-		
 		else
 		{
 			printf("Yanlış seçim yaptınız !\n");
