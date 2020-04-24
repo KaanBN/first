@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Node
+{
+	int data;
+	struct Node* next;
+}node;
+
+void add_node(node** head_ref) {
+	node* head = *head_ref;
+	node* newnode = (node*)malloc(sizeof(node));
+	int start = 0;
+	printf("Number :");
+	scanf_s("%d", &(newnode->data));
+	if (head == NULL)
+	{
+		newnode->next = newnode;
+		head = newnode;
+	}
+	else
+	{
+		node* current = head;
+		start = head->data;
+		while (current->data != start)
+		{
+			current = current->next;
+		}
+		current->next = newnode;
+		newnode->next = head;
+	}
+	*head_ref = head;
+}
+void traverse(node* head) {
+	node* current = head;
+	int start = head->data;
+	printf("List :\n");
+	do
+	{
+		printf("%d ", current->data);
+		current = current->next;
+	} while (current->data != start);
+	printf("\n");
+}
+int main() {
+	node* head = (node*)malloc(sizeof(node));
+	head = NULL;
+	add_node(&head);
+	traverse(head);
+	add_node(&head);
+	traverse(head);
+}
